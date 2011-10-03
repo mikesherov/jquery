@@ -350,17 +350,33 @@ function getWH( elem, name, extra ) {
 	// Normalize "", auto, and prepare for extra
 	val = parseFloat( val ) || 0;
 
-	// Add padding, border, margin
-	if ( extra ) {
-		jQuery.each( which, function() {
-			val += parseFloat( jQuery.css( elem, "padding" + this ) ) || 0;
-			if ( extra !== "padding" ) {
-				val += parseFloat( jQuery.css( elem, "border" + this + "Width" ) ) || 0;
-			}
-			if ( extra === "margin" ) {
-				val += parseFloat( jQuery.css( elem, extra + this ) ) || 0;
-			}
-		});
+	if ( jQuery.css( elem, "boxSizing" ) === "border-box" ) {
+		//if we're using border-box, the css width/height value behaves like the offsetWidth property!
+		if ( extra !== "border" ) {
+			jQuery.each( which, function() {
+				if ( !extra ) {
+					val -= parseFloat( jQuery.css( elem, "padding" + this ) ) || 0;
+				}
+				if ( extra === "margin" ) {
+					val += parseFloat( jQuery.css( elem, extra + this ) ) || 0;
+				} else {
+					val -= parseFloat( jQuery.css( elem, "border" + this + "Width" ) ) || 0;
+				}
+			});
+		}
+	} else {
+		// Add padding, border, margin
+		if ( extra ) {
+			jQuery.each( which, function() {
+				val += parseFloat( jQuery.css( elem, "padding" + this ) ) || 0;
+				if ( extra !== "padding" ) {
+					val += parseFloat( jQuery.css( elem, "border" + this + "Width" ) ) || 0;
+				}
+				if ( extra === "margin" ) {
+					val += parseFloat( jQuery.css( elem, extra + this ) ) || 0;
+				}
+			});
+		}
 	}
 
 	return val + "px";
