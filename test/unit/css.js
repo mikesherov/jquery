@@ -435,7 +435,7 @@ test(":visible selector works properly on children with a hidden parent (bug #45
 test("internal ref to elem.runtimeStyle (bug #7608)", function () {
 	expect(1);
 	var result = true;
-	
+
 	try {
 		jQuery("#foo").css( { width: "0%" } ).css("width");
 	} catch (e) {
@@ -476,7 +476,7 @@ test("widows & orphans #8936", function () {
 	var $p = jQuery("<p>").appendTo("#qunit-fixture");
 
 	if ( "widows" in $p[0].style ) {
-		expect(4);	
+		expect(4);
 		$p.css({
 			widows: 0,
 			orphans: 0
